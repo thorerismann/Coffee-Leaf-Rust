@@ -12,14 +12,14 @@ import seaborn as sns
 # what is the size of a typical smallholder coffee plantation? (how many plants)
 
 # set parameters for number of plants, branches, leaves
-plants_per_cell_min = 15
-plants_per_cell_max = 20
+plants_per_cell_min = 8
+plants_per_cell_max = 12
 
-branches_per_plant_min = 20
-branches_per_plant_max = 30
+branches_per_plant_min = 15
+branches_per_plant_max = 20
 
 leaves_per_branch_min = 20
-leaves_per_branch_max = 40
+leaves_per_branch_max = 30
 
 # leaf ages
 age_min = 0
@@ -334,7 +334,8 @@ def make_frame_branches(branches,time):
         dead =  len([x for x in i.leaves if x.status == 3])
         infected = len([x for x in i.leaves if (x.status == 1) | (x.status ==2)])
         healthy = len([x for x in i.leaves if x.status == 0])
-        list_dict.append({'dead':dead,'healthy':healthy,'infected':infected,'plant':i.plant,'branch' : i.branch,'grid':i.grid,'berries' : i.berries,'time' : time})
+        list_dict.append({'dead':dead,'healthy':healthy,'infected':infected,
+                          'plant':i.plant,'branch' : i.branch,'grid':i.grid,'berries' : i.berries,'time' : time})
     return list_dict
     
 
@@ -374,8 +375,8 @@ df.set_index('id_no',inplace=True,drop=True)
 grouped_tg = df.groupby(['time','grid']).agg({'healthy':'mean','dead':'mean','infected':'mean','berries':'mean'})
 grouped_tg.reset_index(inplace=True,drop=False)
 
-df.to_csv("branch_level_data.csv",sep=';')
-grouped_tg.to_csv("grouped_data_for_charts.csv",sep=';')
+#df.to_csv("branch_level_data.csv",sep=';')
+#grouped_tg.to_csv("grouped_data_for_charts.csv",sep=';')
 
 #sns.lineplot(data = grouped_tg,x = grouped_tg.time,y = grouped_tg.berries,hue=grouped_tg.grid)
 #sns.lineplot(data = grouped_tg,x = grouped_tg.time,y = grouped_tg.infected,hue=grouped_tg.grid)
